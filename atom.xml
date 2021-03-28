@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-28T14:54:19.186Z</updated>
+    <updated>2021-03-28T15:28:10.350Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -11,15 +11,26 @@
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://liucien.github.io/post/about/</id>
+        <link href="https://liucien.github.io/post/about/">
+        </link>
+        <updated>2019-05-31T11:09:48.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>欢迎来到我的小破站呀，我将在这里记录自己所学所知，很高兴遇见你！🤝</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Flutter 简单使用]]></title>
         <id>https://liucien.github.io/post/flutter-shi-yong-xin-de/</id>
         <link href="https://liucien.github.io/post/flutter-shi-yong-xin-de/">
         </link>
-        <updated>2019-06-02T07:07:08.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="基础概念">基础概念</h2>
+        <updated>2019-05-23T07:07:08.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-基础概念">一、基础概念</h2>
 <p>Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的<a href="https://github.com/liucien/flutter_lottery">demo</a>，此示例仅用于学习，简单做个记录。</p>
-<h2 id="简单的入门基础视频">简单的入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
-<h2 id="基础组件">基础组件</h2>
+<h2 id="二-入门基础视频">二、入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
+<h2 id="三-基础组件">三、基础组件</h2>
 <h3 id="widget最基础的根元素差不多就是html-css">widget：最基础的根元素，差不多就是HTML + CSS；</h3>
 <h3 id="appbarapp-导航栏">AppBar：App 导航栏；</h3>
 <h3 id="tab标签栏">Tab：标签栏</h3>
@@ -30,17 +41,89 @@
 <h3 id="row水平线性布局">Row：水平线性布局</h3>
 <h3 id="column垂直线性布局">Column：垂直线性布局</h3>
 <h3 id="listview展示列表数据">ListView：展示列表数据</h3>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[关于]]></title>
-        <id>https://liucien.github.io/post/about/</id>
-        <link href="https://liucien.github.io/post/about/">
-        </link>
-        <updated>2019-05-31T11:09:48.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>欢迎来到我的小破站呀，我将在这里记录自己所学所知，很高兴遇见你！🤝</p>
-</blockquote>
+<br>
+<h2 id="四-示例代码">四、示例代码</h2>
+<h3 id="入口函数">入口函数</h3>
+<p>相当于<code>&lt;App /&gt;</code>入口</p>
+<pre><code class="language-dart">void main () =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '大乐透查询',
+      theme: ThemeData(
+        primaryColor: Color(0xffe73030),
+      ),
+      home: HomePage(),
+    );
+  }
+}
+</code></pre>
+<h3 id="首页">首页</h3>
+<pre><code class="language-dart">import 'package:flutter/maimport './mas_all.dart';
+import './msg_local.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() =&gt; _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Colors.orangeAccent,
+          title: TabBar(
+            tabs: [
+              Tab(text: '全国'),
+              Tab(text: '地方'),
+            ],
+            indicatorColor: Color(0xffe73030),
+            isScrollable:true,
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            AllMsg(), // 列表页
+            LocalMsg(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+<h3 id="列表">列表</h3>
+<pre><code class="language-dart">class _AllMsgState extends State&lt;AllMsg&gt; {
+    @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: &lt;Widget&gt;[
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('开奖时间  每周一、三、六 20：30'),
+          ),
+          _divBorder(),
+          NearestNum(), //最近开奖
+          _divBorder(),
+          _imgsWidget(),
+          _divBorder(),
+          PastNums()
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+<h2 id="五-总结">五、总结</h2>
+<p>对于前端来说Flutter入门门槛不高dart的学习最好是会点JAVA或者TS，这样比较容易理解里面的泛型、强类型、注解等等一些概念。主要写起来越写越会变得面条状，把样式跟模块拆出来会好一点，但是还是感觉嵌套很多，特别是学习小示例的时候，简直想死，不知道以后会不会有直接使用JS开发Flutter的框架出现（一切能用JS实现必将使用JS实现🤣），就当知识储备了，不知道以后有没有机会用😅。最后：<strong>科学上网很重要！！！</strong>，不然环境都搭不起来。</p>
 ]]></content>
     </entry>
 </feed>

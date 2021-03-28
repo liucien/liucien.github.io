@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Flutter 简单使用 | Gridea</title>
-<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1616943228399">
+<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1616945285673">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://liucien.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="Flutter 简单使用 | Gridea - Atom Feed" href="https://liucien.github.io/atom.xml">
@@ -11,10 +11,10 @@
 
 
 
-    <meta name="description" content="基础概念
+    <meta name="description" content="一、基础概念
 Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的demo，此示例仅用于学习，简单做个记录。
-简单的入门基础视频
-基础..." />
+二、入门基础视频
+三..." />
     <meta name="keywords" content="首页" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +24,7 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
       <div class="main-content">
         <div class="site-header">
   <a href="https://liucien.github.io">
-  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1616943228399" alt="">
+  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1616945285673" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -69,10 +69,10 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
             </h2>
             <div class="post-info">
               <span>
-                2019-06-02
+                2019-05-23
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
               
                 <a href="https://liucien.github.io/tag/zLvScc2GV/" class="post-tag">
@@ -83,10 +83,10 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h2 id="基础概念">基础概念</h2>
+                <h2 id="一-基础概念">一、基础概念</h2>
 <p>Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的<a href="https://github.com/liucien/flutter_lottery">demo</a>，此示例仅用于学习，简单做个记录。</p>
-<h2 id="简单的入门基础视频">简单的入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
-<h2 id="基础组件">基础组件</h2>
+<h2 id="二-入门基础视频">二、入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
+<h2 id="三-基础组件">三、基础组件</h2>
 <h3 id="widget最基础的根元素差不多就是html-css">widget：最基础的根元素，差不多就是HTML + CSS；</h3>
 <h3 id="appbarapp-导航栏">AppBar：App 导航栏；</h3>
 <h3 id="tab标签栏">Tab：标签栏</h3>
@@ -97,15 +97,98 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
 <h3 id="row水平线性布局">Row：水平线性布局</h3>
 <h3 id="column垂直线性布局">Column：垂直线性布局</h3>
 <h3 id="listview展示列表数据">ListView：展示列表数据</h3>
+<br>
+<h2 id="四-示例代码">四、示例代码</h2>
+<h3 id="入口函数">入口函数</h3>
+<p>相当于<code>&lt;App /&gt;</code>入口</p>
+<pre><code class="language-dart">void main () =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '大乐透查询',
+      theme: ThemeData(
+        primaryColor: Color(0xffe73030),
+      ),
+      home: HomePage(),
+    );
+  }
+}
+</code></pre>
+<h3 id="首页">首页</h3>
+<pre><code class="language-dart">import 'package:flutter/maimport './mas_all.dart';
+import './msg_local.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() =&gt; _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Colors.orangeAccent,
+          title: TabBar(
+            tabs: [
+              Tab(text: '全国'),
+              Tab(text: '地方'),
+            ],
+            indicatorColor: Color(0xffe73030),
+            isScrollable:true,
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            AllMsg(), // 列表页
+            LocalMsg(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+<h3 id="列表">列表</h3>
+<pre><code class="language-dart">class _AllMsgState extends State&lt;AllMsg&gt; {
+    @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: &lt;Widget&gt;[
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('开奖时间  每周一、三、六 20：30'),
+          ),
+          _divBorder(),
+          NearestNum(), //最近开奖
+          _divBorder(),
+          _imgsWidget(),
+          _divBorder(),
+          PastNums()
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+<h2 id="五-总结">五、总结</h2>
+<p>对于前端来说Flutter入门门槛不高dart的学习最好是会点JAVA或者TS，这样比较容易理解里面的泛型、强类型、注解等等一些概念。主要写起来越写越会变得面条状，把样式跟模块拆出来会好一点，但是还是感觉嵌套很多，特别是学习小示例的时候，简直想死，不知道以后会不会有直接使用JS开发Flutter的框架出现（一切能用JS实现必将使用JS实现🤣），就当知识储备了，不知道以后有没有机会用😅。最后：<strong>科学上网很重要！！！</strong>，不然环境都搭不起来。</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a></li>
-<li><a href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E8%A7%86%E9%A2%91">简单的入门基础视频</a></li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6">基础组件</a>
+<li><a href="#%E4%B8%80-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">一、基础概念</a></li>
+<li><a href="#%E4%BA%8C-%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E8%A7%86%E9%A2%91">二、入门基础视频</a></li>
+<li><a href="#%E4%B8%89-%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6">三、基础组件</a>
 <ul>
 <li><a href="#widget%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E6%A0%B9%E5%85%83%E7%B4%A0%E5%B7%AE%E4%B8%8D%E5%A4%9A%E5%B0%B1%E6%98%AFhtml-css">widget：最基础的根元素，差不多就是HTML + CSS；</a></li>
 <li><a href="#appbarapp-%E5%AF%BC%E8%88%AA%E6%A0%8F">AppBar：App 导航栏；</a></li>
@@ -119,6 +202,14 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
 <li><a href="#listview%E5%B1%95%E7%A4%BA%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE">ListView：展示列表数据</a></li>
 </ul>
 </li>
+<li><a href="#%E5%9B%9B-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81">四、示例代码</a>
+<ul>
+<li><a href="#%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0">入口函数</a></li>
+<li><a href="#%E9%A6%96%E9%A1%B5">首页</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8">列表</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%94-%E6%80%BB%E7%BB%93">五、总结</a></li>
 </ul>
 </li>
 </ul>
@@ -128,15 +219,6 @@ Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个�
           </article>
         </div>
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://liucien.github.io/post/about/">
-              <h3 class="post-title">
-                关于
-              </h3>
-            </a>
-          </div>
         
 
         
