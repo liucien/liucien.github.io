@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-28T14:52:03.090Z</updated>
+    <updated>2021-03-28T14:54:19.186Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -10,6 +10,28 @@
     <logo>https://liucien.github.io/images/avatar.png</logo>
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Flutter 简单使用]]></title>
+        <id>https://liucien.github.io/post/flutter-shi-yong-xin-de/</id>
+        <link href="https://liucien.github.io/post/flutter-shi-yong-xin-de/">
+        </link>
+        <updated>2019-06-02T07:07:08.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="基础概念">基础概念</h2>
+<p>Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的<a href="https://github.com/liucien/flutter_lottery">demo</a>，此示例仅用于学习，简单做个记录。</p>
+<h2 id="简单的入门基础视频">简单的入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
+<h2 id="基础组件">基础组件</h2>
+<h3 id="widget最基础的根元素差不多就是html-css">widget：最基础的根元素，差不多就是HTML + CSS；</h3>
+<h3 id="appbarapp-导航栏">AppBar：App 导航栏；</h3>
+<h3 id="tab标签栏">Tab：标签栏</h3>
+<h3 id="tabbarview跟tab配合实现切换">TabBarView：跟Tab配合，实现切换；</h3>
+<h3 id="image-container-text类似img-div-span">Image、Container、Text：类似img、div、span</h3>
+<h3 id="center居中">Center：居中</h3>
+<h3 id="flex弹性布局">Flex：弹性布局</h3>
+<h3 id="row水平线性布局">Row：水平线性布局</h3>
+<h3 id="column垂直线性布局">Column：垂直线性布局</h3>
+<h3 id="listview展示列表数据">ListView：展示列表数据</h3>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[关于]]></title>
         <id>https://liucien.github.io/post/about/</id>

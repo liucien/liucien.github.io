@@ -1,0 +1,195 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flutter 简单使用 | Gridea</title>
+<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1616943228399">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://liucien.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Flutter 简单使用 | Gridea - Atom Feed" href="https://liucien.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="基础概念
+Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的demo，此示例仅用于学习，简单做个记录。
+简单的入门基础视频
+基础..." />
+    <meta name="keywords" content="首页" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://liucien.github.io">
+  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1616943228399" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Flutter 简单使用
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-06-02
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+                <a href="https://liucien.github.io/tag/zLvScc2GV/" class="post-tag">
+                  # 首页
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="基础概念">基础概念</h2>
+<p>Flutter 一个Google推出的移动端跨端框架，基于Skin制作了一个高性能的渲染引擎来绘制widget。学习了一下，完成了一个基于彩票网的API彩票查询的<a href="https://github.com/liucien/flutter_lottery">demo</a>，此示例仅用于学习，简单做个记录。</p>
+<h2 id="简单的入门基础视频">简单的入门<a href="https://www.bilibili.com/video/BV15t411U7yf">基础视频</a></h2>
+<h2 id="基础组件">基础组件</h2>
+<h3 id="widget最基础的根元素差不多就是html-css">widget：最基础的根元素，差不多就是HTML + CSS；</h3>
+<h3 id="appbarapp-导航栏">AppBar：App 导航栏；</h3>
+<h3 id="tab标签栏">Tab：标签栏</h3>
+<h3 id="tabbarview跟tab配合实现切换">TabBarView：跟Tab配合，实现切换；</h3>
+<h3 id="image-container-text类似img-div-span">Image、Container、Text：类似img、div、span</h3>
+<h3 id="center居中">Center：居中</h3>
+<h3 id="flex弹性布局">Flex：弹性布局</h3>
+<h3 id="row水平线性布局">Row：水平线性布局</h3>
+<h3 id="column垂直线性布局">Column：垂直线性布局</h3>
+<h3 id="listview展示列表数据">ListView：展示列表数据</h3>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a></li>
+<li><a href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E8%A7%86%E9%A2%91">简单的入门基础视频</a></li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6">基础组件</a>
+<ul>
+<li><a href="#widget%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E6%A0%B9%E5%85%83%E7%B4%A0%E5%B7%AE%E4%B8%8D%E5%A4%9A%E5%B0%B1%E6%98%AFhtml-css">widget：最基础的根元素，差不多就是HTML + CSS；</a></li>
+<li><a href="#appbarapp-%E5%AF%BC%E8%88%AA%E6%A0%8F">AppBar：App 导航栏；</a></li>
+<li><a href="#tab%E6%A0%87%E7%AD%BE%E6%A0%8F">Tab：标签栏</a></li>
+<li><a href="#tabbarview%E8%B7%9Ftab%E9%85%8D%E5%90%88%E5%AE%9E%E7%8E%B0%E5%88%87%E6%8D%A2">TabBarView：跟Tab配合，实现切换；</a></li>
+<li><a href="#image-container-text%E7%B1%BB%E4%BC%BCimg-div-span">Image、Container、Text：类似img、div、span</a></li>
+<li><a href="#center%E5%B1%85%E4%B8%AD">Center：居中</a></li>
+<li><a href="#flex%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80">Flex：弹性布局</a></li>
+<li><a href="#row%E6%B0%B4%E5%B9%B3%E7%BA%BF%E6%80%A7%E5%B8%83%E5%B1%80">Row：水平线性布局</a></li>
+<li><a href="#column%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E5%B8%83%E5%B1%80">Column：垂直线性布局</a></li>
+<li><a href="#listview%E5%B1%95%E7%A4%BA%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE">ListView：展示列表数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://liucien.github.io/post/about/">
+              <h3 class="post-title">
+                关于
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://liucien.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
