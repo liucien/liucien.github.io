@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-28T15:54:05.971Z</updated>
+    <updated>2021-03-29T16:03:24.529Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -10,6 +10,119 @@
     <logo>https://liucien.github.io/images/avatar.png</logo>
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[WebSocket/socket.io的学习使用]]></title>
+        <id>https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/</id>
+        <link href="https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/">
+        </link>
+        <updated>2019-06-06T14:33:05.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-基础概念">一、基础概念</h2>
+<p>web的实时推送技术，在WebSocket出现之前，为了实现推送功能通常采用的方案是轮询。WebSocket协议本质上是一个基于TCP的 独立的协议，能够在浏览器和服务器之间建立双向连接，以基于事件的方式，赋予浏览器实时通信能力。根据慕课网的课程实现了火拼俄罗斯方块的<a href="https://github.com/liucien/webScoket-t">demo</a>从而学习了WebScoket的基础知识。</p>
+<p>socket.io封装 了websocket，同时包含了其它的连接方式，比如Ajax。原因在于不是所有的浏览器都支持websocket(ps：都现在这年代了还有不支持的么🤣)。Socket.io支持4种协议：<strong>WebSocket、htmlfile、xhr-polling、jsonp-polling</strong>，它会自动根据浏览器选择适合的通讯方式。</p>
+<h2 id="二-入门基础视频">二、入门<a href="https://www.imooc.com/learn/861">基础视频</a></h2>
+<h2 id="三-原生websocket事件方法">三、原生WebSocket事件/方法</h2>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>事件处理程序</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>Socket.onopen</td>
+<td>建立 socket 连接时触发这个事件</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Socket.onmessage</td>
+<td>客户端从服务器接收数据时触发</td>
+</tr>
+<tr>
+<td>error</td>
+<td>Socket.onerror</td>
+<td>连接发生错误时触发</td>
+</tr>
+<tr>
+<td>close</td>
+<td>Socket.onclose</td>
+<td>连接被关闭时触发</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Socket.send()</td>
+<td>send(data) 方法使用连接传输数据。</td>
+</tr>
+<tr>
+<td>Socket.close()</td>
+<td>close() 方法用于终止任何现有连接。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四-socketio">四、socket.io</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>socket.once</td>
+<td>只监听一次，接收到服务器端发来的内容，回调函数执行完毕后，取消监听</td>
+</tr>
+<tr>
+<td>socket.on</td>
+<td>持续监听，接收到服务器端发来的内容</td>
+</tr>
+<tr>
+<td>socket.emit</td>
+<td>互相发送事件</td>
+</tr>
+</tbody>
+</table>
+<h2 id="五-示例">五、示例</h2>
+<h3 id="服务端">服务端</h3>
+<pre><code class="language-js">var app = require('http').createServer()
+var io = require('socket.io')(app);
+
+// 发起事件监听
+io.on('connection', function (socket) {
+    // 事件处理
+})
+</code></pre>
+<h3 id="客户端">客户端</h3>
+<pre><code class="language-js">var Local = function (socket) {
+    // 本地控制逻辑
+})
+var Remote = function (socket) {
+    // 远程socket调用
+})
+</code></pre>
+<pre><code class="language-js">var socket = io('ws://localhost:3002'); // 链接地址
+var local = new Local(socket);
+var remote = new Remote(socket); 
+
+socket.on('waiting', function (str) {
+    document.getElementById('waiting').innerHTML = str; // 等待载入
+})
+</code></pre>
+<h2 id="六-总结">六、总结</h2>
+<p>知识储备+1😂，封装过后的socket.io从使用方面简洁了不少，懂得on/emit的事件就能简单做个示例出来。加上namespace做到事件区域隔离也很方便。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Flutter 简单使用]]></title>
         <id>https://liucien.github.io/post/flutter-shi-yong-xin-de/</id>
@@ -112,7 +225,7 @@ class _HomePageState extends State&lt;HomePage&gt; {
 }
 </code></pre>
 <h2 id="五-总结">五、总结</h2>
-<p>对于前端来说Flutter入门门槛不高dart的学习最好是会点JAVA或者TS，这样比较容易理解里面的泛型、强类型、注解等等一些概念。主要写起来越写越会变得面条状，把样式跟模块拆出来会好一点，但是还是感觉嵌套很多，特别是学习小示例的时候，简直想死，不知道以后会不会有直接使用JS开发Flutter的框架出现（一切能用JS实现必将使用JS实现🤣），就当知识储备了，不知道以后有没有机会用😅。最后：<strong>科学上网很重要！！！</strong>，不然环境都搭不起来。</p>
+<p>对于前端来说Flutter入门门槛不高，但是要直接使用做项目的话要会点原生的知识，dart的学习最好是会点JAVA或者TS，这样比较容易理解里面的泛型、强类型、注解等等一些概念。主要写起来越写越会变得面条状，把样式跟模块拆出来会好一点，但是还是感觉嵌套很多，特别是学习小示例的时候，简直想死，不知道以后会不会有直接使用JS开发Flutter的框架出现（一切能用JS实现必将使用JS实现🤣），就当知识储备了，不知道以后有没有机会用😅。最后：<strong>科学上网很重要！！！</strong>，不然环境都搭不起来。</p>
 ]]></content>
     </entry>
 </feed>
