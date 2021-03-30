@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-29T16:03:24.529Z</updated>
+    <updated>2021-03-30T16:34:09.210Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -10,6 +10,168 @@
     <logo>https://liucien.github.io/images/avatar.png</logo>
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Koa + MongoDB开发CMS内容管理系统学习记录]]></title>
+        <id>https://liucien.github.io/post/koa-mongodb-kai-fa-cms-nei-rong-guan-li-xi-tong-xue-xi-ji-lu/</id>
+        <link href="https://liucien.github.io/post/koa-mongodb-kai-fa-cms-nei-rong-guan-li-xi-tong-xue-xi-ji-lu/">
+        </link>
+        <updated>2019-06-21T14:31:48.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-学习目的">一、学习目的</h2>
+<p>个人学习项目，该下项目视频来源于<a href="https://www.itying.com/goods-800.html">IT营</a>，此项目主要示范如何使用koa搭建后端项目，并使用mongoDB作为数据存储，并完成增删改查。<a href="https://github.com/liucien/CMS-koa">demo地址</a>，主要以node.js学习为主，前端使用的art模板。</p>
+<h2 id="二-目录结构">二、目录结构</h2>
+<p>├── models                  数据库模型目录<br>
+│   ├── config.js           数据库链接配置<br>
+│   ├── db.js                 实例化连接数据库<br>
+│   └── tools.js             工具函数<br>
+├── routes                    应用路由目录<br>
+│   ├── admin               业务逻辑<br>
+│   ├── admin.js<br>
+│   ├── api.js<br>
+│   └── index.js<br>
+├── public                  静态资源<br>
+├── views                   视图<br>
+│   ├── admin             后台页面<br>
+│   └── default            前端页面<br>
+├── app.js                应用主文件<br>
+├── package.json<br>
+└── package-lock.json</p>
+<h2 id="三-主要模块">三、主要模块</h2>
+<h3 id="1-art-template-koa-art-template">1、art-template 、koa-art-template</h3>
+<p>模板引擎</p>
+<pre><code class="language-js">const render = require('koa-art-template');
+//配置模板引擎
+render(app, {
+    root: path.join(__dirname, 'views'),
+    extname: '.html',
+    debug: process.env.NODE_ENV !== 'production',
+    dateFormat:dateFormat=function(value){
+        //设置日期格式
+        return sd.format(new Date(value), 'YYYY-MM-DD HH:mm');
+    } /*扩展模板里面的方法*/
+});
+</code></pre>
+<h3 id="2-koa-router">2、koa-router</h3>
+<p>路由处理模块，koa-router是koa的路由处理中间件，请求示例</p>
+<pre><code class="language-js">const router = require('koa-router')();
+
+router.get('/', async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//post请求
+router.post('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//put请求
+router.put('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//delete请求
+router.delete('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+</code></pre>
+<h3 id="3-koa-bodyparser">3、koa-bodyparser</h3>
+<p>使用koa-bodyparser解析post请求发送的body内容：</p>
+<pre><code class="language-js">const bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
+</code></pre>
+<h3 id="4-koa-static">4、koa-static</h3>
+<p>koa-static是koa的一个静态资源处理中间件，一般用它指定项目中的某个目录为静态资源目录</p>
+<pre><code class="language-js">const static = require('koa-static');
+//配置静态资源中间件
+// app.use(static('.'));//不安全形式
+app.use(static(__dirname + '/public'));
+</code></pre>
+<h3 id="5-mongodb">5、mongodb</h3>
+<p>链接mongoDB数据库。基本就两个步骤：首先链接数据库，封装了一个单例，解决多次链接问题。然后创建数据库model用于数据库的增删改查操作。</p>
+<pre><code class="language-js">const MongoDB = require('mongodb');
+const MongoClient = MongoDB.MongoClient;
+const ObjectID = MongoDB.ObjectID;
+const Config = require('./config.js');
+
+class Db {
+    static getInstance() { /** 单例 解决多次实例化实例不共享问题 */
+        if (!Db.instance) {
+            Db.instance = new Db();
+        }
+        return Db.instance;
+    }
+
+    constructor() {  /** 实例化时连接数据库 */
+        this.dbClient = '';
+        this.connect();
+    }
+
+    connect() { //连接数据库
+        return new Promise((resolve, reject) =&gt; {
+            if (!this.dbClient) {
+                /** 解决数据库多次连接问题 */
+                MongoClient.connect(Config.dBUrl, (err, client) =&gt; {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        this.dbClient = client.db(Config.dbName);
+                        resolve(this.dbClient);
+                    }
+                });
+            } else {
+                resolve(this.dbClient)
+            }
+        })
+    }
+
+    find(collectionName, json1, json2, json3) {
+        // 查询逻辑
+     }
+
+    update(collectionName, json1, json2) {
+        // 修改逻辑
+    }
+
+    insert(collectionName, json) {
+        // 插入逻辑
+    }
+
+    remove(collectionName, json) {
+        // 删除逻辑
+    }
+
+    getObjectId(id) {
+        return new ObjectID(id)
+    }
+
+    //统计数量的方法
+    count(collectionName, json) {
+        return new Promise((resolve, reject) =&gt; {
+            this.connect().then(db =&gt; {
+                let result = db.collection(collectionName).count(json);
+                result.then(count =&gt; {
+                    resolve(count)
+                })
+            })
+        })
+    }
+}
+</code></pre>
+<h2 id="四-项目启动">四、项目启动</h2>
+<p>1、首先启动MongoDB ---&gt; mongod.exe --dbpath D:\mongodb\data(路径)；<br>
+2、启动npm脚本命令 npm dev;</p>
+<h2 id="五-心得">五、心得</h2>
+<p>通过简单项目学习一点Node.js的后端知识，包括NoSql的基础增删改查操作，了解后端操作，方便配合时沟通合作。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[WebSocket/socket.io的学习使用]]></title>
         <id>https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/</id>

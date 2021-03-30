@@ -1,0 +1,328 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Koa + MongoDB开发CMS内容管理系统学习记录 | Gridea</title>
+<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1617122031519">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://liucien.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Koa + MongoDB开发CMS内容管理系统学习记录 | Gridea - Atom Feed" href="https://liucien.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="一、学习目的
+个人学习项目，该下项目视频来源于IT营，此项目主要示范如何使用koa搭建后端项目，并使用mongoDB作为数据存储，并完成增删改查。demo地址，主要以node.js学习为主，前端使用的art模板。
+二、目录结构
+├── mo..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://liucien.github.io">
+  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1617122031519" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://liucien.github.io/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Koa + MongoDB开发CMS内容管理系统学习记录
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-06-21
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="一-学习目的">一、学习目的</h2>
+<p>个人学习项目，该下项目视频来源于<a href="https://www.itying.com/goods-800.html">IT营</a>，此项目主要示范如何使用koa搭建后端项目，并使用mongoDB作为数据存储，并完成增删改查。<a href="https://github.com/liucien/CMS-koa">demo地址</a>，主要以node.js学习为主，前端使用的art模板。</p>
+<h2 id="二-目录结构">二、目录结构</h2>
+<p>├── models                  数据库模型目录<br>
+│   ├── config.js           数据库链接配置<br>
+│   ├── db.js                 实例化连接数据库<br>
+│   └── tools.js             工具函数<br>
+├── routes                    应用路由目录<br>
+│   ├── admin               业务逻辑<br>
+│   ├── admin.js<br>
+│   ├── api.js<br>
+│   └── index.js<br>
+├── public                  静态资源<br>
+├── views                   视图<br>
+│   ├── admin             后台页面<br>
+│   └── default            前端页面<br>
+├── app.js                应用主文件<br>
+├── package.json<br>
+└── package-lock.json</p>
+<h2 id="三-主要模块">三、主要模块</h2>
+<h3 id="1-art-template-koa-art-template">1、art-template 、koa-art-template</h3>
+<p>模板引擎</p>
+<pre><code class="language-js">const render = require('koa-art-template');
+//配置模板引擎
+render(app, {
+    root: path.join(__dirname, 'views'),
+    extname: '.html',
+    debug: process.env.NODE_ENV !== 'production',
+    dateFormat:dateFormat=function(value){
+        //设置日期格式
+        return sd.format(new Date(value), 'YYYY-MM-DD HH:mm');
+    } /*扩展模板里面的方法*/
+});
+</code></pre>
+<h3 id="2-koa-router">2、koa-router</h3>
+<p>路由处理模块，koa-router是koa的路由处理中间件，请求示例</p>
+<pre><code class="language-js">const router = require('koa-router')();
+
+router.get('/', async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//post请求
+router.post('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//put请求
+router.put('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+//delete请求
+router.delete('/testPost',async ctx =&gt; {
+    ctx.body = {
+        success:true,
+        message:'请求成功'
+    }
+});
+</code></pre>
+<h3 id="3-koa-bodyparser">3、koa-bodyparser</h3>
+<p>使用koa-bodyparser解析post请求发送的body内容：</p>
+<pre><code class="language-js">const bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
+</code></pre>
+<h3 id="4-koa-static">4、koa-static</h3>
+<p>koa-static是koa的一个静态资源处理中间件，一般用它指定项目中的某个目录为静态资源目录</p>
+<pre><code class="language-js">const static = require('koa-static');
+//配置静态资源中间件
+// app.use(static('.'));//不安全形式
+app.use(static(__dirname + '/public'));
+</code></pre>
+<h3 id="5-mongodb">5、mongodb</h3>
+<p>链接mongoDB数据库。基本就两个步骤：首先链接数据库，封装了一个单例，解决多次链接问题。然后创建数据库model用于数据库的增删改查操作。</p>
+<pre><code class="language-js">const MongoDB = require('mongodb');
+const MongoClient = MongoDB.MongoClient;
+const ObjectID = MongoDB.ObjectID;
+const Config = require('./config.js');
+
+class Db {
+    static getInstance() { /** 单例 解决多次实例化实例不共享问题 */
+        if (!Db.instance) {
+            Db.instance = new Db();
+        }
+        return Db.instance;
+    }
+
+    constructor() {  /** 实例化时连接数据库 */
+        this.dbClient = '';
+        this.connect();
+    }
+
+    connect() { //连接数据库
+        return new Promise((resolve, reject) =&gt; {
+            if (!this.dbClient) {
+                /** 解决数据库多次连接问题 */
+                MongoClient.connect(Config.dBUrl, (err, client) =&gt; {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        this.dbClient = client.db(Config.dbName);
+                        resolve(this.dbClient);
+                    }
+                });
+            } else {
+                resolve(this.dbClient)
+            }
+        })
+    }
+
+    find(collectionName, json1, json2, json3) {
+        // 查询逻辑
+     }
+
+    update(collectionName, json1, json2) {
+        // 修改逻辑
+    }
+
+    insert(collectionName, json) {
+        // 插入逻辑
+    }
+
+    remove(collectionName, json) {
+        // 删除逻辑
+    }
+
+    getObjectId(id) {
+        return new ObjectID(id)
+    }
+
+    //统计数量的方法
+    count(collectionName, json) {
+        return new Promise((resolve, reject) =&gt; {
+            this.connect().then(db =&gt; {
+                let result = db.collection(collectionName).count(json);
+                result.then(count =&gt; {
+                    resolve(count)
+                })
+            })
+        })
+    }
+}
+</code></pre>
+<h2 id="四-项目启动">四、项目启动</h2>
+<p>1、首先启动MongoDB ---&gt; mongod.exe --dbpath D:\mongodb\data(路径)；<br>
+2、启动npm脚本命令 npm dev;</p>
+<h2 id="五-心得">五、心得</h2>
+<p>通过简单项目学习一点Node.js的后端知识，包括NoSql的基础增删改查操作，了解后端操作，方便配合时沟通合作。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%B8%80-%E5%AD%A6%E4%B9%A0%E7%9B%AE%E7%9A%84">一、学习目的</a></li>
+<li><a href="#%E4%BA%8C-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">二、目录结构</a></li>
+<li><a href="#%E4%B8%89-%E4%B8%BB%E8%A6%81%E6%A8%A1%E5%9D%97">三、主要模块</a>
+<ul>
+<li><a href="#1-art-template-koa-art-template">1、art-template 、koa-art-template</a></li>
+<li><a href="#2-koa-router">2、koa-router</a></li>
+<li><a href="#3-koa-bodyparser">3、koa-bodyparser</a></li>
+<li><a href="#4-koa-static">4、koa-static</a></li>
+<li><a href="#5-mongodb">5、mongodb</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B-%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8">四、项目启动</a></li>
+<li><a href="#%E4%BA%94-%E5%BF%83%E5%BE%97">五、心得</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/">
+              <h3 class="post-title">
+                WebSocket/socket.io的学习使用
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://liucien.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
