@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-30T16:35:38.620Z</updated>
+    <updated>2021-04-01T16:31:15.558Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -11,13 +11,69 @@
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[基于Three.js的魔方小游戏学习记录]]></title>
+        <id>https://liucien.github.io/post/ji-yu-threejs-de-mo-fang-xiao-you-xi-xue-xi-ji-lu/</id>
+        <link href="https://liucien.github.io/post/ji-yu-threejs-de-mo-fang-xiao-you-xi-xue-xi-ji-lu/">
+        </link>
+        <updated>2019-08-02T14:51:18.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-学习目的">一、学习目的</h2>
+<p>出于对3D图形方面的兴趣，借由three.js框架先对3D方面进行一波简单的学习。此项目学习资源来源于<a href="https://juejin.cn/book/6844733759326158861">掘金小册</a>。</p>
+<h2 id="二-目录结构">二、目录结构</h2>
+<p>├── adapter 适配器文件<br>
+├── image 贴图图片<br>
+├── js 贴图图片<br>
+│       ├── object 逻辑<br>
+│       ├── three    <a href="https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene">three库</a><br>
+│       ├── tween    <a href="http://www.createjs.cc/tweenjs/">tween动画库</a><br>
+│       └── main.js 应用主文件<br>
+├── game.js     入口文件<br>
+├── game.json<br>
+└── project.config.json     项目配置文件</p>
+<h2 id="三-基本概念">三、基本概念</h2>
+<h3 id="1-渲染器成像作用">1、渲染器：成像作用</h3>
+<ul>
+<li>WebGLRenderer使用 WebGL 技术；</li>
+<li>CanvasRenderer使用 Canvas 2D 技术；</li>
+<li>CSS2DRenderer和CSS3DRenderer则是使用 CSS 技术；<br>
+调用new THREE.WebGLRenderer()即可创建一个 WebGL 渲染器对象</li>
+</ul>
+<pre><code class="language-js">new THREE.WebGLRenderer({
+        antialias : true//抗锯齿开启
+    });
+</code></pre>
+<h3 id="2-相机">2、相机</h3>
+<ul>
+<li>在three.js中相机一般使用右手坐标系；</li>
+<li>透视投影相机，类似人眼，满足<strong>近大远小</strong>规则，PerspectiveCamera；</li>
+<li>正交投影相机，即平行投影根据角度决定展示形式，大小不变，OrthographicCamera；<br>
+<img src="https://liucien.github.io/post-images/1617293719156.jpg" alt="" loading="lazy"></li>
+</ul>
+<h3 id="3-光源">3、光源</h3>
+<ul>
+<li>方向光：模拟太阳光照射正方体的例子中可以看到对于任意平行的平面，方向光照射的亮度都是相同的，DirectionalLight<br>
+<img src="https://liucien.github.io/post-images/1617294107277.gif" alt="" loading="lazy"></li>
+<li>聚光灯：手电筒能够朝着一个方向投射类似圆锥形的光线，SpotLight<br>
+<img src="https://liucien.github.io/post-images/1617294177152.jpg" alt="" loading="lazy"><br>
+-点光源：点光源则类似于灯泡，其发出的光线照到物体表面的亮度是线性递减的，因此离点光源距离越远的物体会显得越暗，PointLight<br>
+<img src="https://liucien.github.io/post-images/1617294247122.jpg" alt="" loading="lazy"><br>
+-环境光：阴影位置的光，环境光只有一个颜色性质，AmbientLight</li>
+</ul>
+<h3 id="4-物体几何体-模型">4、物体：几何体、模型</h3>
+<ul>
+<li>自带的几何体：在计算机中构建 3D 物体也是如此，只不过采用的是连接三个顶点组成三角形的方式而已，这个三角形在计算机图形学中被称为三角形网格。网格面数越多，物体越精细，但同时会消耗更多的存储空间以及计算机性能；</li>
+<li>模型：由特定的 3D 软件设计制作并导出模型素材，可以使用纹理贴图/法线贴图（资源消耗小），也可以直接使用精模（资源消耗大）；</li>
+</ul>
+<h3 id="5-场景以上4个关键因素的舞台">5、场景：以上4个关键因素的舞台！</h3>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Koa + MongoDB开发CMS内容管理系统学习记录]]></title>
         <id>https://liucien.github.io/post/koa-mongodb-kai-fa-cms-nei-rong-guan-li-xi-tong-xue-xi-ji-lu/</id>
         <link href="https://liucien.github.io/post/koa-mongodb-kai-fa-cms-nei-rong-guan-li-xi-tong-xue-xi-ji-lu/">
         </link>
         <updated>2019-06-21T14:31:48.000Z</updated>
         <content type="html"><![CDATA[<h2 id="一-学习目的">一、学习目的</h2>
-<p>个人学习项目，该下项目视频来源于<a href="https://www.itying.com/goods-800.html">IT营</a>，此项目主要示范如何使用koa搭建后端项目，并使用mongoDB作为数据存储，并完成增删改查。<a href="https://github.com/liucien/CMS-koa">demo地址</a>，主要以node.js学习为主，前端使用的art模板。</p>
+<p>个人学习项目，该项目视频来源于<a href="https://www.itying.com/goods-800.html">IT营</a>，此项目主要示范如何使用koa搭建后端项目，并使用mongoDB作为数据存储，并完成增删改查。<a href="https://github.com/liucien/CMS-koa">demo地址</a>，主要以node.js学习为主，前端使用的art模板。</p>
 <h2 id="二-目录结构">二、目录结构</h2>
 <p>├── models                  数据库模型目录<br>
 │   ├── config.js           数据库链接配置<br>
