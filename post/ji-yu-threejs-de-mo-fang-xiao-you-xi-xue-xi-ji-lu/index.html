@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>基于Three.js的魔方小游戏学习记录 | Gridea</title>
-<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1617294737039">
+<link rel="shortcut icon" href="https://liucien.github.io/favicon.ico?v=1618411789735">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://liucien.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="基于Three.js的魔方小游戏学习记录 | Gridea - Atom Feed" href="https://liucien.github.io/atom.xml">
@@ -27,7 +27,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://liucien.github.io">
-  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1617294737039" alt="">
+  <img class="avatar" src="https://liucien.github.io/images/avatar.png?v=1618411789735" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -75,7 +75,7 @@
                 2019-08-02
               </span>
               <span>
-                2 min read
+                5 min read
               </span>
               
             </div>
@@ -130,6 +130,105 @@
 <li>模型：由特定的 3D 软件设计制作并导出模型素材，可以使用纹理贴图/法线贴图（资源消耗小），也可以直接使用精模（资源消耗大）；</li>
 </ul>
 <h3 id="5-场景以上4个关键因素的舞台">5、场景：以上4个关键因素的舞台！</h3>
+<h2 id="四-webgl基础知识">四、WebGL基础知识</h2>
+<h3 id="1-片元可简单理解为像素点">1、片元：可简单理解为像素点</h3>
+<figure data-type="image" tabindex="1"><img src="https://liucien.github.io/post-images/1618128851406.png" alt="" loading="lazy"></figure>
+<h3 id="2-着色器">2、着色器</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顶点着色器</td>
+<td>用来处理物体轮廓的程序</td>
+</tr>
+<tr>
+<td>片元着色器</td>
+<td>用来处理物体材质和纹理的程序</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-相机投影作用将三维场景投影到二维屏幕">3、相机：投影作用，将三维场景投影到二维屏幕</h3>
+<h3 id="4-光源">4、光源</h3>
+<h3 id="5-物体">5、物体</h3>
+<h3 id="6-渲染">6、渲染</h3>
+<h2 id="五-静态魔方">五、静态魔方</h2>
+<h3 id="1-适配浏览器环境">1、适配浏览器环境</h3>
+<p><a href="https://github.com/finscn/weapp-adapter">adapter库</a></p>
+<pre><code class="language-js">import '/adapter/index.js'; 
+</code></pre>
+<h3 id="2-初始化主逻辑mainjs">2、初始化主逻辑<a href="https://github.com/liucien/three_game/blob/master/js/main.js">main.js</a></h3>
+<p>初始化内容包含：渲染器、相机、光源、物体、场景等五要素及渲染函数。</p>
+<h3 id="3-渲染魔方rubikjs">3、渲染魔方<a href="https://github.com/liucien/three_game/blob/master/js/object/Rubik.js">Rubik.js</a></h3>
+<p>1、由Canvas 图案生成纹理，即：把 Canvas 元素直接传入到Texture对象中；<br>
+2、根据纹理申城材质(MeshLambertMaterial)；<br>
+3、根据各个小方块的中心点组成魔方；<br>
+4、在main.js中渲染魔方；</p>
+<pre><code class="language-js">import BasicRubik from 'object/Rubik.js'
+
+initObject() {
+    const rubik = new BasicRubik(this); // 初始化魔方对象
+    rubik.model();
+}
+</code></pre>
+<h2 id="六-魔方转动">六、魔方转动</h2>
+<h3 id="1-确定触摸点">1、确定触摸点</h3>
+<p>通过wx对象获取触摸事件</p>
+<pre><code class="language-js">//触控事件
+  initEvent() {
+    wx.onTouchStart(this.touchStart.bind(this)); //开始触摸
+    wx.onTouchMove(this.touchMove.bind(this)); //触摸移动
+    wx.onTouchEnd(this.touchEnd.bind(this)); // 触摸结束
+  }
+</code></pre>
+<h3 id="2-确定转动方向">2、确定转动方向</h3>
+<p>根据触控事件中的move的偏移量决定转动方向</p>
+<pre><code class="language-js">  touchMove(event) {
+    let touch = event.touches[0];
+    if (this.touchLine.isActive) { //滑动touchline
+      this.touchLine.move(touch.clientY);
+      let frontPercent = touch.clientY / window.innerHeight;
+      let endPercent = 1 - frontPercent;
+      this.rubikResize(frontPercent, endPercent);
+    } else {
+      this.getIntersects(event);
+      if (!this.isRotating &amp;&amp; this.startPoint &amp;&amp; this.intersect) { //滑动点在魔方上且魔方没有转动
+        this.movePoint = this.intersect.point;
+        //equals() 检查该向量和v3的严格相等性。
+        if (!this.movePoint.equals(this.startPoint)) { //触摸点和滑动点不一样则意味着可以得到滑动方向
+          this.rotateRubik();
+        }
+      }
+
+      if (!this.isRotating &amp;&amp; this.startPoint &amp;&amp; !this.intersect) { //触摸点没在魔方上
+        this.movePoint = new THREE.Vector2(touch.clientX, touch.clientY);
+        if (!this.movePoint.equals(this.startPoint)) {
+          this.rotateView();
+        }
+      }
+    }
+  }
+</code></pre>
+<h3 id="3-制作转动动画">3、制作转动动画</h3>
+<p>制作转动动画的过程中使用 requestAnimationFrame</p>
+<pre><code class="language-js">rotateMove(cubeIndex, direction, callback, totalTime) {
+    var self = this;
+    totalTime = totalTime ? totalTime : this.defaultTotalTime;
+    var elements = this.getBoxs(cubeIndex, direction);
+    requestAnimationFrame(function (timestamp) {
+        self.rotateAnimation(elements, direction, timestamp, 0, 0, function () {
+            self.updateCubeIndex(elements);
+            if (callback) {
+                callback();
+            }
+        }, totalTime);
+    });
+}
+</code></pre>
 
               </div>
               <div class="toc-container">
@@ -145,6 +244,30 @@
 <li><a href="#3-%E5%85%89%E6%BA%90">3、光源</a></li>
 <li><a href="#4-%E7%89%A9%E4%BD%93%E5%87%A0%E4%BD%95%E4%BD%93-%E6%A8%A1%E5%9E%8B">4、物体：几何体、模型</a></li>
 <li><a href="#5-%E5%9C%BA%E6%99%AF%E4%BB%A5%E4%B8%8A4%E4%B8%AA%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E7%9A%84%E8%88%9E%E5%8F%B0">5、场景：以上4个关键因素的舞台！</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B-webgl%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">四、WebGL基础知识</a>
+<ul>
+<li><a href="#1-%E7%89%87%E5%85%83%E5%8F%AF%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3%E4%B8%BA%E5%83%8F%E7%B4%A0%E7%82%B9">1、片元：可简单理解为像素点</a></li>
+<li><a href="#2-%E7%9D%80%E8%89%B2%E5%99%A8">2、着色器</a></li>
+<li><a href="#3-%E7%9B%B8%E6%9C%BA%E6%8A%95%E5%BD%B1%E4%BD%9C%E7%94%A8%E5%B0%86%E4%B8%89%E7%BB%B4%E5%9C%BA%E6%99%AF%E6%8A%95%E5%BD%B1%E5%88%B0%E4%BA%8C%E7%BB%B4%E5%B1%8F%E5%B9%95">3、相机：投影作用，将三维场景投影到二维屏幕</a></li>
+<li><a href="#4-%E5%85%89%E6%BA%90">4、光源</a></li>
+<li><a href="#5-%E7%89%A9%E4%BD%93">5、物体</a></li>
+<li><a href="#6-%E6%B8%B2%E6%9F%93">6、渲染</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%94-%E9%9D%99%E6%80%81%E9%AD%94%E6%96%B9">五、静态魔方</a>
+<ul>
+<li><a href="#1-%E9%80%82%E9%85%8D%E6%B5%8F%E8%A7%88%E5%99%A8%E7%8E%AF%E5%A2%83">1、适配浏览器环境</a></li>
+<li><a href="#2-%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%BB%E9%80%BB%E8%BE%91mainjs">2、初始化主逻辑main.js</a></li>
+<li><a href="#3-%E6%B8%B2%E6%9F%93%E9%AD%94%E6%96%B9rubikjs">3、渲染魔方Rubik.js</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%AD-%E9%AD%94%E6%96%B9%E8%BD%AC%E5%8A%A8">六、魔方转动</a>
+<ul>
+<li><a href="#1-%E7%A1%AE%E5%AE%9A%E8%A7%A6%E6%91%B8%E7%82%B9">1、确定触摸点</a></li>
+<li><a href="#2-%E7%A1%AE%E5%AE%9A%E8%BD%AC%E5%8A%A8%E6%96%B9%E5%90%91">2、确定转动方向</a></li>
+<li><a href="#3-%E5%88%B6%E4%BD%9C%E8%BD%AC%E5%8A%A8%E5%8A%A8%E7%94%BB">3、制作转动动画</a></li>
 </ul>
 </li>
 </ul>
