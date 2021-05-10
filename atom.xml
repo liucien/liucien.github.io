@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liucien.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-14T14:49:53.237Z</updated>
+    <updated>2021-05-10T16:44:44.582Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liucien.github.io"/>
     <link rel="self" href="https://liucien.github.io/atom.xml"/>
@@ -11,11 +11,190 @@
     <icon>https://liucien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[从输入url到页面显示发生了什么？]]></title>
+        <id>https://liucien.github.io/post/cong-shu-ru-url-dao-ye-mian-xian-shi-fa-sheng-liao-shi-me/</id>
+        <link href="https://liucien.github.io/post/cong-shu-ru-url-dao-ye-mian-xian-shi-fa-sheng-liao-shi-me/">
+        </link>
+        <updated>2021-04-17T14:59:01.000Z</updated>
+        <content type="html"><![CDATA[<p>前言：本来是不想写这个了，网上的文章实在是太多了，但是今天公司内部开了个前后端交互的分享会，对这块有所涉及，但是讲的比较基础，还是决定从<a href="https://mp.weixin.qq.com/s/2sESudqe8nsH-n7Mm-tYZA">转转前端的这篇文章入手</a>进行梳理下</p>
+<h3 id="一-简单流程">一、简单流程</h3>
+<p><code>1.</code>输入URL；<br>
+<code>2.</code>浏览器处理输入信息，根据输入的是什么判断是url还是搜索条件；<br>
+<code>3.</code>输入的是url，开始导航，发起URL请求；<br>
+<code>4.</code>请求完成，重定向至页面；<br>
+<code>5.</code>读取页面文档信息，准备渲染进程；<br>
+<code>6.</code>页面解析DOM树加载，CSSOM树加载，script脚本加载，各项静态资源加载；<br>
+<code>7.</code>一切顺利，各项阻塞流程都完成加载，成功展示页面；</p>
+<h3 id="二-浏览器的多进程架构">二、浏览器的多进程架构</h3>
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>浏览器进程</td>
+<td>主要负责界面显示、用户交互、子进程管理，同时提供存储等功能</td>
+</tr>
+<tr>
+<td>渲染进程</td>
+<td>将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，排版引擎 Blink 和 JavaScript 引擎 V8 都运行在该进程中</td>
+</tr>
+<tr>
+<td>GPU进程</td>
+<td>用来实现 3D CSS 效果，webgl、绘制网页、Chrome 的 UI 界面</td>
+</tr>
+<tr>
+<td>网络进程</td>
+<td>负责页面的网络资源加载</td>
+</tr>
+<tr>
+<td>插件进程</td>
+<td>负责插件的运行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三-请求流程">三、请求流程<img src="https://liucien.github.io/post-images/1620664474898.png" alt="" loading="lazy"></h3>
+<h3 id="四-准备渲染进程">四、准备渲染进程</h3>
+<p>此时文档数据正在网络进程中，还没有提交给渲染进程</p>
+<h3 id="五-提交文档">五、提交文档</h3>
+<p>html数据进入渲染进程</p>
+<ul>
+<li>浏览器进程收到网络进程的响应头数据后，向渲染进程发起提交文档的消息</li>
+<li>渲染进程收到后，会和网络进程建立传输数据的管道</li>
+<li>数据传输完后，渲染进程会返回确认提交的信息给浏览器进程</li>
+</ul>
+<h3 id="六-进入浏览器渲染">六、进入浏览器渲染</h3>
+<p>文档被提交后，导航流程就结束了，渲染进程便开始页面解析和子资源加载。</p>
+<p>如上图所示，输入的是 HTML、CSS、JavaScript 数据，这些数据经过中间渲染模块的处理，最终输出为屏幕上的像素，这样的处理流程叫做渲染流水线。</p>
+<p>按照渲染的时间顺序，渲染流水线可以分成下面几个阶段：构建 DOM 树、样式计算、布局阶段、分层、绘制、光栅化和合成。<br>
+<img src="https://liucien.github.io/post-images/1620664898503.png" alt="" loading="lazy"></p>
+<h4 id="1-构建-dom-树">1、构建 DOM 树</h4>
+<h4 id="2-样式计算">2、样式计算</h4>
+<h4 id="3-构建脚本不进行async与defer的脚本会阻塞渲染">3、构建脚本（不进行async与defer的脚本会阻塞渲染）</h4>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WebSocket/socket.io的学习使用]]></title>
+        <id>https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/</id>
+        <link href="https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/">
+        </link>
+        <updated>2020-10-24T14:33:05.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-基础概念">一、基础概念</h2>
+<p>web的实时推送技术，在WebSocket出现之前，为了实现推送功能通常采用的方案是轮询。WebSocket协议本质上是一个基于TCP的 独立的协议，能够在浏览器和服务器之间建立双向连接，以基于事件的方式，赋予浏览器实时通信能力。根据慕课网的课程实现了火拼俄罗斯方块的<a href="https://github.com/liucien/webScoket-t">demo</a>从而学习了WebScoket的基础知识。</p>
+<p>socket.io封装 了websocket，同时包含了其它的连接方式，比如Ajax。原因在于不是所有的浏览器都支持websocket(ps：都现在这年代了还有不支持的么🤣)。Socket.io支持4种协议：<strong>WebSocket、htmlfile、xhr-polling、jsonp-polling</strong>，它会自动根据浏览器选择适合的通讯方式。</p>
+<h2 id="二-入门基础视频">二、入门<a href="https://www.imooc.com/learn/861">基础视频</a></h2>
+<h2 id="三-原生websocket事件方法">三、原生WebSocket事件/方法</h2>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>事件处理程序</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>Socket.onopen</td>
+<td>建立 socket 连接时触发这个事件</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Socket.onmessage</td>
+<td>客户端从服务器接收数据时触发</td>
+</tr>
+<tr>
+<td>error</td>
+<td>Socket.onerror</td>
+<td>连接发生错误时触发</td>
+</tr>
+<tr>
+<td>close</td>
+<td>Socket.onclose</td>
+<td>连接被关闭时触发</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Socket.send()</td>
+<td>send(data) 方法使用连接传输数据。</td>
+</tr>
+<tr>
+<td>Socket.close()</td>
+<td>close() 方法用于终止任何现有连接。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四-socketio">四、socket.io</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>socket.once</td>
+<td>只监听一次，接收到服务器端发来的内容，回调函数执行完毕后，取消监听</td>
+</tr>
+<tr>
+<td>socket.on</td>
+<td>持续监听，接收到服务器端发来的内容</td>
+</tr>
+<tr>
+<td>socket.emit</td>
+<td>互相发送事件</td>
+</tr>
+</tbody>
+</table>
+<h2 id="五-示例">五、示例</h2>
+<h3 id="服务端">服务端</h3>
+<pre><code class="language-js">var app = require('http').createServer()
+var io = require('socket.io')(app);
+
+// 发起事件监听
+io.on('connection', function (socket) {
+    // 事件处理
+})
+</code></pre>
+<h3 id="客户端">客户端</h3>
+<pre><code class="language-js">var Local = function (socket) {
+    // 本地控制逻辑
+})
+var Remote = function (socket) {
+    // 远程socket调用
+})
+</code></pre>
+<pre><code class="language-js">var socket = io('ws://localhost:3002'); // 链接地址
+var local = new Local(socket);
+var remote = new Remote(socket); 
+
+socket.on('waiting', function (str) {
+    document.getElementById('waiting').innerHTML = str; // 等待载入
+})
+</code></pre>
+<h2 id="六-总结">六、总结</h2>
+<p>知识储备+1😂，封装过后的socket.io从使用方面简洁了不少，懂得on/emit的事件就能简单做个示例出来。加上namespace做到事件区域隔离也很方便。</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[基于Three.js的魔方小游戏学习记录]]></title>
         <id>https://liucien.github.io/post/ji-yu-threejs-de-mo-fang-xiao-you-xi-xue-xi-ji-lu/</id>
         <link href="https://liucien.github.io/post/ji-yu-threejs-de-mo-fang-xiao-you-xi-xue-xi-ji-lu/">
         </link>
-        <updated>2019-08-02T14:51:18.000Z</updated>
+        <updated>2020-08-02T14:51:18.000Z</updated>
         <content type="html"><![CDATA[<h2 id="一-学习目的">一、学习目的</h2>
 <p>出于对3D图形方面的兴趣，借由three.js框架先对3D方面进行一波简单的学习。此项目学习资源来源于<a href="https://juejin.cn/book/6844733759326158861">掘金小册</a>。</p>
 <h2 id="二-目录结构">二、目录结构</h2>
@@ -325,119 +504,6 @@ class Db {
 2、启动npm脚本命令 npm dev;</p>
 <h2 id="五-心得">五、心得</h2>
 <p>通过简单项目学习一点Node.js的后端知识，包括NoSql的基础增删改查操作，了解后端操作，方便配合时沟通合作。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[WebSocket/socket.io的学习使用]]></title>
-        <id>https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/</id>
-        <link href="https://liucien.github.io/post/webscoket-de-xue-xi-shi-yong/">
-        </link>
-        <updated>2019-06-06T14:33:05.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="一-基础概念">一、基础概念</h2>
-<p>web的实时推送技术，在WebSocket出现之前，为了实现推送功能通常采用的方案是轮询。WebSocket协议本质上是一个基于TCP的 独立的协议，能够在浏览器和服务器之间建立双向连接，以基于事件的方式，赋予浏览器实时通信能力。根据慕课网的课程实现了火拼俄罗斯方块的<a href="https://github.com/liucien/webScoket-t">demo</a>从而学习了WebScoket的基础知识。</p>
-<p>socket.io封装 了websocket，同时包含了其它的连接方式，比如Ajax。原因在于不是所有的浏览器都支持websocket(ps：都现在这年代了还有不支持的么🤣)。Socket.io支持4种协议：<strong>WebSocket、htmlfile、xhr-polling、jsonp-polling</strong>，它会自动根据浏览器选择适合的通讯方式。</p>
-<h2 id="二-入门基础视频">二、入门<a href="https://www.imooc.com/learn/861">基础视频</a></h2>
-<h2 id="三-原生websocket事件方法">三、原生WebSocket事件/方法</h2>
-<table>
-<thead>
-<tr>
-<th>事件</th>
-<th>事件处理程序</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>open</td>
-<td>Socket.onopen</td>
-<td>建立 socket 连接时触发这个事件</td>
-</tr>
-<tr>
-<td>message</td>
-<td>Socket.onmessage</td>
-<td>客户端从服务器接收数据时触发</td>
-</tr>
-<tr>
-<td>error</td>
-<td>Socket.onerror</td>
-<td>连接发生错误时触发</td>
-</tr>
-<tr>
-<td>close</td>
-<td>Socket.onclose</td>
-<td>连接被关闭时触发</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Socket.send()</td>
-<td>send(data) 方法使用连接传输数据。</td>
-</tr>
-<tr>
-<td>Socket.close()</td>
-<td>close() 方法用于终止任何现有连接。</td>
-</tr>
-</tbody>
-</table>
-<h2 id="四-socketio">四、socket.io</h2>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>socket.once</td>
-<td>只监听一次，接收到服务器端发来的内容，回调函数执行完毕后，取消监听</td>
-</tr>
-<tr>
-<td>socket.on</td>
-<td>持续监听，接收到服务器端发来的内容</td>
-</tr>
-<tr>
-<td>socket.emit</td>
-<td>互相发送事件</td>
-</tr>
-</tbody>
-</table>
-<h2 id="五-示例">五、示例</h2>
-<h3 id="服务端">服务端</h3>
-<pre><code class="language-js">var app = require('http').createServer()
-var io = require('socket.io')(app);
-
-// 发起事件监听
-io.on('connection', function (socket) {
-    // 事件处理
-})
-</code></pre>
-<h3 id="客户端">客户端</h3>
-<pre><code class="language-js">var Local = function (socket) {
-    // 本地控制逻辑
-})
-var Remote = function (socket) {
-    // 远程socket调用
-})
-</code></pre>
-<pre><code class="language-js">var socket = io('ws://localhost:3002'); // 链接地址
-var local = new Local(socket);
-var remote = new Remote(socket); 
-
-socket.on('waiting', function (str) {
-    document.getElementById('waiting').innerHTML = str; // 等待载入
-})
-</code></pre>
-<h2 id="六-总结">六、总结</h2>
-<p>知识储备+1😂，封装过后的socket.io从使用方面简洁了不少，懂得on/emit的事件就能简单做个示例出来。加上namespace做到事件区域隔离也很方便。</p>
 ]]></content>
     </entry>
     <entry>
